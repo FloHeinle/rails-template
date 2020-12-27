@@ -19,6 +19,14 @@ Creates a new dockerized rails application. Preconfigured with:
 
 ## Usage
 
+### Option 1: pipe into shell
+
+```sh
+bash <( curl https://raw.githubusercontent.com/FloHeinle/rails-template/main/setup.sh ) name-of-your-rails-app
+```
+
+### Option 2: git clone
+
 ```sh
 chmod +x setup.sh
 ./setup.sh name-of-your-rails-app
