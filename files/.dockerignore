@@ -1,0 +1,12 @@
+.git
+.gitignore
+.DS_Store
+README.md
+/Dockerfile
+/env.*
+/log
+/tmp
+.irb_history
+.ash_history
+.cache
+.yarnrc

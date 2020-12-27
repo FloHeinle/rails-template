@@ -1,0 +1,61 @@
+version: '3.9'
+services:
+
+  redis:
+    image: redis:6.0.9-alpine3.12
+    ports:
+      - '6379:6379'
+
+  postgres:
+    image: postgres:13.1-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - db-data-volume:/var/lib/postgresql/data
+
+  web:
+    build:
+      context: .
+      target: dev
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+      - redis
+      - webpack
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=postgres
+      - WEBPACKER_DEV_SERVER_HOST=webpack
+    volumes:
+      - .:/app
+      - bundle-volume:/usr/local/bundle
+      - log-volume:/app/log
+      - node-modules-volume:/app/node_modules
+      - tmp-volume:/app/tmp
+
+  webpack:
+    build:
+      context: .
+      target: dev
+    command: ./bin/webpack-dev-server
+    ports:
+      - '3035:3035'
+    environment:
+      - NODE_ENV=development
+      - RAILS_ENV=development
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+    volumes:
+      - .:/app
+      - bundle-volume:/usr/local/bundle
+      - log-volume:/app/log
+      - node-modules-volume:/app/node_modules
+      - tmp-volume:/app/tmp
+
+volumes:
+  bundle-volume: {}
+  db-data-volume: {}
+  log-volume: {}
+  node-modules-volume: {}
+  tmp-volume: {}
