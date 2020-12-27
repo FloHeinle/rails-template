@@ -47,7 +47,9 @@ docker run --rm -it -v ${PWD}:/${app_name} ruby:3.0.0-alpine3.12 \
           tzdata \
           yarn; \
   gem install rails; \
-  rails new ${app_name} -m https://raw.githubusercontent.com/FloHeinle/rails-template/main/composer.rb -d postgresql --webpack=stimulus;
+  # Using wget until thor is able  ready for ruby 3
+  wget https://raw.githubusercontent.com/FloHeinle/rails-template/main/composer.rb; \
+  rails new ${app_name} -m composer.rb -d postgresql --webpack=stimulus;
 
 cd ${app_name}
 chmod +x script/setup.sh script/wait-for-postgres.sh;

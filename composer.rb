@@ -37,8 +37,6 @@ def remove_dir(dir)
   run("rm -rf #{dir}")
 end
 
-gem 'thor', git: 'https://github.com/FloHeinle/thor'
-
 # gitignore
 get_remote('gitignore', '.gitignore')
 
