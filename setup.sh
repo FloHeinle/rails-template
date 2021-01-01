@@ -35,21 +35,14 @@ then
     exit 1
 fi
 
-docker run --rm -it -v ${PWD}:/${app_name} ruby:3.0.0-alpine3.12 sh -c "
-  apk add build-base \
-          file \
-          git \
-          less \
-          nodejs \
-          openssh \
-          postgresql-client \
-          postgresql-dev \
-          tzdata \
-          yarn; \
+mkdir -p ${app_name}
+
+docker run --user $(id -u):$(id -g) --rm -it -v ${PWD}/${app_name}:/app floheinle/ruby-non-root:3.0.0 sh -c "
   gem install rails; \
   # Using wget until thor is able  ready for ruby 3
   wget https://raw.githubusercontent.com/FloHeinle/rails-template/main/composer.rb; \
-  rails new ${app_name} -m composer.rb -d postgresql --webpack=stimulus;"
+  rails new . -d postgresql --webpack=stimulus -m composer.rb; \
+  rm composer.rb;"
 
 cd ${app_name}
 chmod +x script/setup.sh script/wait-for-postgres.sh;
