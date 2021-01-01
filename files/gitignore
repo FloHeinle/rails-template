@@ -39,3 +39,5 @@ yarn-debug.log*
 .cache
 .yarnrc
 .DS_Store
+.local
+.yarn
