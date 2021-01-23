@@ -50,7 +50,7 @@ gem_group :development do
   gem 'guard-minitest'
 end
 
-group :development, :test do
+gem_group :development, :test do
   gem 'pry-byebug'
 end
 
