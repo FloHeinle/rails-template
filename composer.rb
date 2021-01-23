@@ -54,9 +54,13 @@ inject_into_file 'Gemfile', before: "gem 'rexml'\n" do <<~EOF
 end
 
 inject_into_file 'Gemfile', after: "group :development do\n" do <<-EOF
-  # Automatically run corresponding tests when files are saved.
+  # Automatically run corresponding tests and linters when files are saved.
   gem 'guard'
   gem 'guard-minitest'
+  gem 'guard-rubocop'
+  # Ruby code linter.
+  gem 'rubocop'
+  gem 'rubocop-rails', require: false
   EOF
 end
 
@@ -71,6 +75,7 @@ after_bundle do
   run 'spring stop'
   run 'bundle exec guard init'
   run 'bundle exec guard init minitest'
+  run 'bundle exec guard init rubocop'
 end
 
 say 'Applying jquery & font-awesome & bootstrap4...'
@@ -113,3 +118,6 @@ get_remote('.dockerignore')
 get_remote('docker-compose.yml')
 get_remote('docker-compose.subsystems.yml')
 get_remote('Dockerfile')
+get_remote('.rubocop.yml')
+
+run 'bundle exec rubocop -A --auto-gen-config'
