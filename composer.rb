@@ -48,18 +48,21 @@ get_remote('config/database.yml.example', 'config/database.yml')
 # Not included in Ruby from version 3 onwards.
 gem 'rexml'
 
+inject_into_file 'Gemfile', before: "gem 'rexml'\n" do <<-EOF
+  # Not included in Ruby from version 3 onwards.
+  EOF
+end
+
 inject_into_file 'Gemfile', after: "group :development do\n" do <<-EOF
   # Automatically run corresponding tests when files are saved.
   gem 'guard'
   gem 'guard-minitest'
-
   EOF
 end
 
-inject_into_file 'Gemfile', after: "group :development, :test\n" do <<-EOF
+inject_into_file 'Gemfile', after: "group :development, :test do\n" do <<-EOF
   # Adds step-by-step debugging and stack navigation capabilities.
   gem 'pry-byebug'
-
   EOF
 end
 
