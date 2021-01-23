@@ -79,7 +79,7 @@ after_bundle do
 
   get_remote('.rubocop.yml')
   run 'bundle exec rubocop -A'
-  run 'bundle exec rubocop -A --auto-gen-config'
+  run 'bundle exec rubocop --auto-gen-config'
 end
 
 say 'Applying jquery & font-awesome & bootstrap4...'
