@@ -78,6 +78,7 @@ after_bundle do
   run 'bundle exec guard init rubocop'
 
   get_remote('.rubocop.yml')
+  run 'bundle exec rubocop -A'
   run 'bundle exec rubocop -A --auto-gen-config'
 end
 
@@ -121,4 +122,3 @@ get_remote('.dockerignore')
 get_remote('docker-compose.yml')
 get_remote('docker-compose.subsystems.yml')
 get_remote('Dockerfile')
-
