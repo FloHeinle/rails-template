@@ -45,9 +45,36 @@ say 'Applying postgresql...'
 get_remote('config/database.yml.example')
 get_remote('config/database.yml.example', 'config/database.yml')
 
+gem_group :development do
+  gem 'guard'
+  gem 'guard-minitest'
+end
+
+group :development, :test do
+  gem 'pry-byebug'
+end
+
+gem 'rexml'
+
+inject_into_file 'Gemfile', before: "gem 'rexml'" do <<-EOF
+  # Not included in Ruby from version 3 onwards.
+  EOF
+end
+
+inject_into_file 'Gemfile', before: "gem 'guard'" do <<-EOF
+  # Automatically run corresponding tests when files are saved.
+  EOF
+end
+inject_into_file 'Gemfile', before: "gem 'pry-byebug'" do <<-EOF
+  # Adds step-by-step debugging and stack navigation capabilities.
+  EOF
+end
+
 after_bundle do
-  say "Stop spring if exists"
-  run "spring stop"
+  say 'Stop spring if exists'
+  run 'spring stop'
+  run 'bundle exec guard init'
+  run 'bundle exec guard init minitest'
 end
 
 say 'Applying jquery & font-awesome & bootstrap4...'
@@ -87,7 +114,6 @@ scripts = ['setup.sh', 'wait-for-postgres.sh']
 get_remote_dir(scripts, 'script')
 
 get_remote('.dockerignore')
-
 get_remote('docker-compose.yml')
-
+get_remote('docker-compose.subsystems.yml')
 get_remote('Dockerfile')

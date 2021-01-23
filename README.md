@@ -15,6 +15,7 @@ Creates a new dockerized rails application. Preconfigured with:
 ## Prerequisites
 
 [docker](https://docs.docker.com/get-docker/)
+
 [docker-compose](https://docs.docker.com/compose/install/)
 
 ## Usage

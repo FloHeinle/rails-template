@@ -49,4 +49,4 @@ chmod +x script/setup.sh script/wait-for-postgres.sh;
 ./script/setup.sh
 docker-compose stop
 
-success "Build successfully!"
+success 'Build successfully!'
