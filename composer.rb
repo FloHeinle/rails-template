@@ -48,7 +48,7 @@ get_remote('config/database.yml.example', 'config/database.yml')
 # Not included in Ruby from version 3 onwards.
 gem 'rexml'
 
-inject_into_file 'Gemfile', before: "gem 'rexml'\n" do <<-EOF
+inject_into_file 'Gemfile', before: "gem 'rexml'\n" do <<~EOF
   # Not included in Ruby from version 3 onwards.
   EOF
 end
