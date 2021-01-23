@@ -76,6 +76,9 @@ after_bundle do
   run 'bundle exec guard init'
   run 'bundle exec guard init minitest'
   run 'bundle exec guard init rubocop'
+
+  get_remote('.rubocop.yml')
+  run 'bundle exec rubocop -A --auto-gen-config'
 end
 
 say 'Applying jquery & font-awesome & bootstrap4...'
@@ -118,6 +121,4 @@ get_remote('.dockerignore')
 get_remote('docker-compose.yml')
 get_remote('docker-compose.subsystems.yml')
 get_remote('Dockerfile')
-get_remote('.rubocop.yml')
 
-run 'bundle exec rubocop -A --auto-gen-config'
