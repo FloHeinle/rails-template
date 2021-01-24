@@ -43,6 +43,12 @@ inject_into_file 'Gemfile', before: "gem 'rexml'\n" do <<~EOF
   EOF
 end
 
+inject_into_file 'Gemfile', after: "group :test do\n" do <<-EOF
+  # One-liners to test common Rails functionality.
+  gem 'shoulda'
+  EOF
+end
+
 inject_into_file 'Gemfile', after: "group :development do\n" do <<-EOF
   # Automatically run corresponding tests and linters when files are saved.
   gem 'guard'
@@ -109,4 +115,16 @@ after_bundle do
   run 'bundle exec guard init rubocop'
 
   get_remote('.rubocop.yml')
+
+  inject_into_file 'test/test_helper.rb', after: "end\n" do <<~EOF
+
+    Shoulda::Matchers.configure do |config|
+      config.integrate do |with|
+        with.test_framework :minitest
+        with.library :rails
+      end
+    end
+
+    EOF
+  end
 end
