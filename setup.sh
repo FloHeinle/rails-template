@@ -42,7 +42,8 @@ docker run --user $(id -u):$(id -g) --rm -it -v ${PWD}/${app_name}:/app floheinl
   # Using wget until thor is able  ready for ruby 3
   wget https://raw.githubusercontent.com/FloHeinle/rails-template/main/composer.rb; \
   rails new . -d postgresql --webpack=stimulus -m composer.rb; \
-  rm composer.rb;"
+  rm composer.rb; \
+  bundle exec rubocop -A --auto-gen-config;"
 
 cd ${app_name}
 chmod +x script/setup.sh script/wait-for-postgres.sh;

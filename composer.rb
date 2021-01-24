@@ -109,8 +109,4 @@ after_bundle do
   run 'bundle exec guard init rubocop'
 
   get_remote('.rubocop.yml')
-  run 'bundle exec rubocop -A'
-  run 'bundle exec rubocop --auto-gen-config'
-
-  git :init
 end
