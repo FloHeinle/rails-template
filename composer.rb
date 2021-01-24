@@ -1,9 +1,3 @@
-def remove_gem(*names)
-  names.each do |name|
-    gsub_file 'Gemfile', /gem '#{name}'.*\n/, ''
-  end
-end
-
 def replace_myapp(file)
   gsub_file file, /myapp/, app_name, verbose: false
 end
@@ -31,10 +25,6 @@ end
 
 def yarn(lib)
   run("yarn add #{lib}")
-end
-
-def remove_dir(dir)
-  run("rm -rf #{dir}")
 end
 
 # gitignore
@@ -68,18 +58,6 @@ inject_into_file 'Gemfile', after: "group :development, :test do\n" do <<-EOF
   # Adds step-by-step debugging and stack navigation capabilities.
   gem 'pry-byebug'
   EOF
-end
-
-after_bundle do
-  say 'Stop spring if exists'
-  run 'spring stop'
-  run 'bundle exec guard init'
-  run 'bundle exec guard init minitest'
-  run 'bundle exec guard init rubocop'
-
-  get_remote('.rubocop.yml')
-  run 'bundle exec rubocop -A'
-  run 'bundle exec rubocop --auto-gen-config'
 end
 
 say 'Applying jquery & font-awesome & bootstrap4...'
@@ -122,3 +100,17 @@ get_remote('.dockerignore')
 get_remote('docker-compose.yml')
 get_remote('docker-compose.subsystems.yml')
 get_remote('Dockerfile')
+
+after_bundle do
+  say 'Stop spring if exists'
+  run 'spring stop'
+  run 'bundle exec guard init'
+  run 'bundle exec guard init minitest'
+  run 'bundle exec guard init rubocop'
+
+  get_remote('.rubocop.yml')
+  run 'bundle exec rubocop -A'
+  run 'bundle exec rubocop --auto-gen-config'
+
+  git :init
+end
