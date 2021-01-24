@@ -43,11 +43,15 @@ docker run --user $(id -u):$(id -g) --rm -it -v ${PWD}/${app_name}:/app floheinl
   wget https://raw.githubusercontent.com/FloHeinle/rails-template/main/composer.rb; \
   rails new . -d postgresql --webpack=stimulus -m composer.rb; \
   rm composer.rb; \
-  bundle exec rubocop -A --auto-gen-config;"
+  bundle exec rubocop -A; \
+  bundle exec rubocop --auto-gen-config;"
 
 cd ${app_name}
 chmod +x script/setup.sh script/wait-for-postgres.sh;
 ./script/setup.sh
 docker-compose stop
 
-success 'Build successfully!'
+git init
+
+success 'Build success'
+
