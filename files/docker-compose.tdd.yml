@@ -24,6 +24,8 @@ services:
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_HOST=postgres
+      - SELENIUM_HOST=chrome
+      - SYSTEM_TESTS_IN_DOCKER=true
     volumes:
       - .:/app
       - bundle-volume:/usr/local/bundle
@@ -35,6 +37,8 @@ services:
     image: selenium/standalone-chrome-debug
     volumes:
       - /dev/shm:/dev/shm
+    logging:
+      driver: 'none'
     ports:
       - '5901:5900'
     environment:

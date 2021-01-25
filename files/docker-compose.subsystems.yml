@@ -21,6 +21,8 @@ services:
     image: selenium/standalone-chrome-debug
     volumes:
       - /dev/shm:/dev/shm
+    logging:
+      driver: 'none'
     ports:
       - '4444:4444'
       - '5900:5900'
