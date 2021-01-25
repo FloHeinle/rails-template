@@ -66,6 +66,8 @@ inject_into_file 'Gemfile', after: "group :development, :test do\n" do <<-EOF
   EOF
 end
 
+gsub_file 'Gemfile', "gem 'webdrivers'", "gem 'webdrivers', require: false"
+
 say 'Applying jquery & font-awesome & bootstrap4...'
 after_bundle do
   yarn 'bootstrap jquery popper.js @fortawesome/fontawesome-free'
@@ -111,15 +113,11 @@ get_remote('docker-compose.tdd.yml')
 get_remote('docker-compose.subsystems.yml')
 get_remote('Dockerfile')
 get_remote('Guardfile')
+get_remote('.rubocop.yml')
 
 after_bundle do
   say 'Stop spring if exists'
   run 'spring stop'
-  run 'bundle exec guard init'
-  run 'bundle exec guard init minitest'
-  run 'bundle exec guard init rubocop'
-
-  get_remote('.rubocop.yml')
 
   inject_into_file 'test/test_helper.rb', after: "end\n" do <<~EOF
 

@@ -30,5 +30,4 @@ COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build
 
 docker-compose run --rm web sh -c 'bundle install' || true
 docker-compose run --rm web sh -c './script/wait-for-postgres.sh postgres postgres bin/rails db:create db:migrate'
-
 docker-compose run --rm webpack sh -c 'yarn install' || true
