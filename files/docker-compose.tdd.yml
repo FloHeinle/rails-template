@@ -12,20 +12,18 @@ services:
     volumes:
       - db-data-volume:/var/lib/postgresql/data
 
-  web:
+  guard:
     build:
       context: .
       target: dev
-    ports:
-      - '3000:3000'
     depends_on:
       - postgres
       - redis
-      - webpack
+      - chrome
+    command: bundle exec guard --no-bundler-warning --no-interactions
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_HOST=postgres
-      - WEBPACKER_DEV_SERVER_HOST=webpack
     volumes:
       - .:/app
       - bundle-volume:/usr/local/bundle
@@ -33,23 +31,17 @@ services:
       - node-modules-volume:/app/node_modules
       - tmp-volume:/app/tmp
 
-  webpack:
-    build:
-      context: .
-      target: dev
-    command: ./bin/webpack-dev-server
-    ports:
-      - '3035:3035'
-    environment:
-      - NODE_ENV=development
-      - RAILS_ENV=development
-      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+  chrome:
+    image: selenium/standalone-chrome-debug
     volumes:
-      - .:/app
-      - bundle-volume:/usr/local/bundle
-      - log-volume:/app/log
-      - node-modules-volume:/app/node_modules
-      - tmp-volume:/app/tmp
+      - /dev/shm:/dev/shm
+    ports:
+      - '5901:5900'
+    environment:
+      - VNC_NO_PASSWORD=1
+    extra_hosts:
+      # Needed for linux hosts.
+      - 'host.docker.internal:host-gateway'
 
 volumes:
   bundle-volume: {}

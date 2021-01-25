@@ -99,13 +99,18 @@ get_remote_dir(helpers, 'app/helpers')
 stylesheets = ['application.scss']
 get_remote_dir(stylesheets, 'app/javascript/stylesheets')
 
-scripts = ['setup.sh', 'wait-for-postgres.sh']
-get_remote_dir(scripts, 'script')
+script = ['setup.sh', 'wait-for-postgres.sh']
+get_remote_dir(script, 'script')
+
+test_files = ['application_system_test_case.rb']
+get_remote_dir(test_files, 'test')
 
 get_remote('.dockerignore')
 get_remote('docker-compose.yml')
+get_remote('docker-compose.tdd.yml')
 get_remote('docker-compose.subsystems.yml')
 get_remote('Dockerfile')
+get_remote('Guardfile')
 
 after_bundle do
   say 'Stop spring if exists'

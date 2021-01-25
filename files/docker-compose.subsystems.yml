@@ -1,4 +1,6 @@
+# Use this compose file if you want to run all the needed services in docker but develop locally.
 version: '3.9'
+
 services:
   redis:
     image: redis:6.0.9-alpine3.12
@@ -14,6 +16,19 @@ services:
       - db-data-volume:/var/lib/postgresql/data
     ports:
       - '5432:5432'
+
+  chrome:
+    image: selenium/standalone-chrome-debug
+    volumes:
+      - /dev/shm:/dev/shm
+    ports:
+      - '4444:4444'
+      - '5900:5900'
+    environment:
+      - VNC_NO_PASSWORD=1
+    extra_hosts:
+      # Needed for linux hosts.
+      - 'host.docker.internal:host-gateway'
 
 volumes:
   db-data-volume: {}
